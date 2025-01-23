@@ -5,8 +5,9 @@ const API_URL = `${BASE_URL}/productlist/GetAllCategory`
 const categories = ref([])
 const categoryid = ref(0)
 const emit = defineEmits(["categoryClick"])
+const selectedCategory = ref('featured')
 const clickHandler = id => {
-  categoryid.value = id
+  selectedCategory.value = id
   emit("categoryClick", id)
 }
 watchEffect(async () => {
@@ -19,7 +20,13 @@ watchEffect(async () => {
 <template>
   <div>
     <ul v-if="categories && categories.length > 0" class="list-group list-group-horizontal">
-      <li :class="{ 'current': category.categoryid === categoryid, 'list-group-item': true }"
+      <!-- 精選產品按鈕 -->
+      <li :class="{ 'current': selectedCategory === 'featured', 'list-group-item ': true }"
+          @click="clickHandler('featured')">
+        <button type="button" class="btn">精選產品</button>
+      </li>
+      <!-- 類別按鈕 -->
+      <li :class="{ 'current': selectedCategory === category.categoryid, 'list-group-item': true }"
         v-for="category in categories" :key="category.categoryid" @click="clickHandler(category.categoryid)">
         <button type="button" class="btn">{{ category.categoryname }}</button>
       </li>

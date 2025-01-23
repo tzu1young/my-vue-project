@@ -8,7 +8,7 @@ import { reactive } from 'vue';
 
 const categories = reactive([{ id: 0, name: '全部' }])
 const products = reactive({})
-const datas = ref({ "categoryid": 1})//, "is_feature": false
+const datas = ref({ "categoryid": 0, "is_feature": true})//, "is_feature": false
 
 
 const loadProducts = async () => {
@@ -17,17 +17,24 @@ const loadProducts = async () => {
     let API_URL = `${BASE_URL}/productlist/GetAllProduct`;
 
     // 根据分类ID决定 API 路径
-    if (datas.value.categoryid !== 0) {
-        Object.keys(products).forEach(key => delete products[key]);
-        
+    if (datas.value.is_feature) {
+        API_URL = `${BASE_URL}/productlist/GetFeaturedProduct`;
+    } else if (datas.value.categoryid !== 0) {        
         API_URL = `${BASE_URL}/productlist/GetAllProduct/${datas.value.categoryid}`;
     }   
+    Object.keys(products).forEach(key => delete products[key]);
     const response = await axios.get(API_URL)
     Object.assign(products, response.data)
 }
 
 const CategoryHandler = async (id) => {
-    datas.value.categoryid = id;  // 更新分类ID
+    if (id === 'featured') {
+        datas.value.categoryid = 0;  // 將分類ID設為0（或其他代表全部的值）
+        datas.value.is_feature = true; // 新增一個變數來標示選擇的是精選產品
+    } else {
+        datas.value.categoryid = id;  // 更新分類ID
+        datas.value.is_feature = false; // 取消精選狀態
+    }
     await loadProducts();
 };
 
