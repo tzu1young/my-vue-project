@@ -18,15 +18,17 @@ watchEffect(async () => {
 })
 </script>
 <template>
-  <div>
+  <div class="navbar">
     <ul v-if="categories && categories.length > 0" class="list-group list-group-horizontal">
       <!-- 精選產品按鈕 -->
-      <li :class="{ 'current': selectedCategory === 'featured', 'list-group-item ': true }"
-          @click="clickHandler('featured')">
+      <li class="custom-list-group-item"
+        :class="{ 'current': selectedCategory === 'featured', 'list-group-item ': true }"
+        @click="clickHandler('featured')">
         <button type="button" class="btn">精選產品</button>
       </li>
       <!-- 類別按鈕 -->
-      <li :class="{ 'current': selectedCategory === category.categoryid, 'list-group-item': true }"
+      <li class="custom-list-group-item"
+        :class="{ 'current': selectedCategory === category.categoryid, 'list-group-item': true }"
         v-for="category in categories" :key="category.categoryid" @click="clickHandler(category.categoryid)">
         <button type="button" class="btn">{{ category.categoryname }}</button>
       </li>
@@ -34,7 +36,21 @@ watchEffect(async () => {
   </div>
 </template>
 <style lang="css" scoped>
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.custom-list-group-item {
+  border-collapse: collapse;
+  color: rgb(1, 77, 1);
+  border-color: white;
+  border-radius: 10px !important;
+}
+
 .current {
-  background-color: lightblue;
+  background-color: rgb(0, 77, 0);
+  color: white;
 }
 </style>
