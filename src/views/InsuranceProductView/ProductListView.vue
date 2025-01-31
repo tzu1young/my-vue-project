@@ -1,5 +1,6 @@
 <script setup>
 import ProductListNavbarComponent from '@/components/InsuranceProductComponent/ProductListNavbarComponent.vue';
+import TravelAdComponent from '@/components/InsuranceProductComponent/TravelAdComponent.vue';
 import axios from 'axios';
 
 import { onMounted } from 'vue';
@@ -48,6 +49,10 @@ onMounted(async () => {
 </script>
 
 <template>
+
+    <div>
+        <TravelAdComponent></TravelAdComponent>
+    </div>
 
     <div style="background-color: white">
         <ProductListNavbarComponent @categoryClick="CategoryHandler"></ProductListNavbarComponent>
